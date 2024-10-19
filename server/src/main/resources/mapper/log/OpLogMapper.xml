@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kc.lesson.log.mapper.OpLogMapper">
+
+    <!-- 查询操作日志 -->
+    <select id="selectOpLogList" resultType="com.kc.lesson.log.entity.OpLog">
+        SELECT * FROM t_op_log ORDER BY time DESC
+    </select>
+
+    <!-- 插入日志 -->
+    <insert id="insert" parameterType="com.kc.lesson.log.entity.OpLog">
+        <selectKey keyProperty="id" resultType="long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO t_op_log (ip, time, ua, url, method, content, access_time)
+        VALUES (#{ip}, #{time}, #{ua}, #{url}, #{method}, #{content}, #{accessTime})
+    </insert>
+
+    <!-- 根据ID删除日志 -->
+    <delete id="deleteById" parameterType="String">
+        DELETE FROM t_op_log WHERE id = #{id}
+    </delete>
+
+    <!-- 更新日志 -->
+    <update id="updateById" parameterType="com.kc.lesson.log.entity.OpLog">
+        UPDATE t_op_log
+        SET ip = #{ip}, time = #{time}, ua = #{ua}, url = #{url}, method = #{method}, content = #{content}, access_time = #{accessTime}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 查询登录日志 -->
+    <select id="selectLoginLogList" resultType="com.kc.lesson.log.entity.OpLog">
+        SELECT * FROM t_op_log WHERE url = '/api/user/userLogin' ORDER BY time DESC
+    </select>
+
+</mapper>

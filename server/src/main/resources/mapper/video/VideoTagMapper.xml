@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kc.lesson.video.mapper.VideoTagMapper">
+
+    <select id="selectByTagId" resultType="com.kc.lesson.video.entity.VideoTag">
+        SELECT * FROM t_video_tag WHERE tag_id = #{tagId}
+    </select>
+
+    <select id="selectByVideoId" resultType="com.kc.lesson.video.entity.VideoTag">
+        SELECT * FROM t_video_tag WHERE video_id = #{videoId}
+    </select>
+
+    <insert id="insert" parameterType="com.kc.lesson.video.entity.VideoTag">
+        <selectKey keyProperty="id" resultType="long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO t_video_tag (video_id, tag_id)
+        VALUES (#{videoId}, #{tagId})
+    </insert>
+
+    <delete id="deleteByMap" parameterType="map">
+        DELETE FROM t_video_tag WHERE video_id = #{videoId}
+    </delete>
+
+</mapper>

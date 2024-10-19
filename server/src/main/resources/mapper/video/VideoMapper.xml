@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kc.lesson.video.mapper.VideoMapper">
+
+    <select id="getVideoList" parameterType="map" resultType="com.kc.lesson.video.entity.Video">
+        SELECT * FROM t_video WHERE 1=1
+        <if test="keyword != null and keyword != ''">
+            AND title LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="c != null and c != '' and c != '-1'">
+            AND classification_id = #{c}
+        </if>
+        <if test="isAdmin != null and isAdmin != '3'">
+            AND status = '0'
+        </if>
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+        <choose>
+            <when test="sort == 'recent'">
+                ORDER BY create_time DESC
+            </when>
+            <when test="sort == 'hot' or sort == 'recommend'">
+                ORDER BY pv DESC
+            </when>
+            <otherwise>
+                ORDER BY create_time DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert" parameterType="com.kc.lesson.video.entity.Video">
+        <selectKey keyProperty="id" resultType="long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO t_video (title, cover, raw, description, status, score, create_time, pv, recommend_count, wish_count, collect_count, classification_id)
+        VALUES (#{title}, #{cover}, #{raw}, #{description}, #{status}, #{score}, #{createTime}, #{pv}, #{recommendCount}, #{wishCount}, #{collectCount}, #{classificationId})
+    </insert>
+
+    <delete id="deleteById" parameterType="String">
+        DELETE FROM t_video WHERE id = #{id}
+    </delete>
+
+    <update id="updateById" parameterType="com.kc.lesson.video.entity.Video">
+        UPDATE t_video SET title = #{title}, cover = #{cover}, raw = #{raw}, description = #{description}, status = #{status}, score = #{score}, create_time = #{createTime}, pv = #{pv},
+                           recommend_count = #{recommendCount}, wish_count = #{wishCount}, collect_count = #{collectCount}, classification_id = #{classificationId}
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectById" parameterType="String" resultType="com.kc.lesson.video.entity.Video">
+        SELECT * FROM t_video WHERE id = #{id}
+    </select>
+
+    <!-- 查询视频总数 -->
+    <select id="countAllVideos" resultType="long">
+        SELECT COUNT(*) FROM t_video
+    </select>
+
+    <!-- 查询七日新增的视频数 -->
+    <select id="countRecentVideos" parameterType="long" resultType="long">
+        SELECT COUNT(*) FROM t_video WHERE create_time >= #{sevenMillis}
+    </select>
+
+    <update id="updateSelective" parameterType="com.kc.lesson.video.entity.Video">
+        UPDATE t_video
+        <set>
+            <if test="title != null">title = #{title},</if>
+            <if test="cover != null">cover = #{cover},</if>
+            <if test="raw != null">raw = #{raw},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="score != null">score = #{score},</if>
+            <if test="pv != null">pv = #{pv},</if>
+            <if test="recommendCount != null">recommend_count = #{recommendCount},</if>
+            <if test="wishCount != null">wish_count = #{wishCount},</if>
+            <if test="collectCount != null">collect_count = #{collectCount},</if>
+            <if test="classificationId != null">classification_id = #{classificationId},</if>
+            <if test="createTime != null">create_time = #{createTime}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>

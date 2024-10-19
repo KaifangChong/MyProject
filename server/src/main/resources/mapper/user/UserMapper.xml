@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kc.lesson.user.mapper.UserMapper">
+
+    <!-- 查询用户列表 -->
+    <select id="getUserList" resultType="com.kc.lesson.user.entity.User">
+        SELECT * FROM t_user where 1=1
+        <if test="keyword != null and keyword != ''">
+            and username LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="role != null and role != ''">
+            AND role = #{role}
+        </if>
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="getAdminUser" resultType="com.kc.lesson.user.entity.User">
+        SELECT * FROM t_user WHERE username = #{username} AND password = #{password} AND role = '3' AND status = '0'
+    </select>
+
+    <select id="getNormalUser" resultType="com.kc.lesson.user.entity.User">
+        SELECT * FROM t_user WHERE username = #{username} AND password = #{password} AND role = '1' AND status = '0'
+    </select>
+
+    <!-- 插入用户 -->
+    <insert id="insert" parameterType="com.kc.lesson.user.entity.User">
+        <selectKey keyProperty="id" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO t_user (username, password, role, status, nickname, avatar, mobile, email, gender, description, create_time, score, push_email, push_switch, token)
+        VALUES (#{username}, #{password}, #{role}, #{status}, #{nickname}, #{avatar}, #{mobile}, #{email}, #{gender}, #{description}, #{createTime}, #{score}, #{pushEmail}, #{pushSwitch}, #{token})
+    </insert>
+
+    <!-- 根据ID删除用户 -->
+    <delete id="deleteById" parameterType="String">
+        DELETE FROM t_user WHERE id = #{id}
+    </delete>
+
+    <!-- 更新用户 -->
+    <update id="updateById" parameterType="com.kc.lesson.user.entity.User">
+        UPDATE t_user
+        SET username = #{username}, password = #{password}, role = #{role}, status = #{status}, nickname = #{nickname}, avatar = #{avatar}, mobile = #{mobile}, email = #{email}, gender = #{gender},
+            description = #{description}, score = #{score}, push_email = #{pushEmail}, push_switch = #{pushSwitch}, token = #{token}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据token查询用户 -->
+    <select id="getUserByToken" parameterType="String" resultType="com.kc.lesson.user.entity.User">
+        SELECT * FROM t_user WHERE token = #{token}
+    </select>
+
+    <!-- 根据用户名查询用户 -->
+    <select id="getUserByUserName" parameterType="String" resultType="com.kc.lesson.user.entity.User">
+        SELECT * FROM t_user WHERE username = #{username}
+    </select>
+
+    <!-- 根据ID查询用户详情 -->
+    <select id="getUserDetail" parameterType="String" resultType="com.kc.lesson.user.entity.User">
+        SELECT * FROM t_user WHERE id = #{userId}
+    </select>
+
+    <update id="updateSelective" parameterType="com.kc.lesson.user.entity.User">
+        UPDATE t_user
+        <set>
+            <if test="username != null">username = #{username},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="role != null">role = #{role},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="nickname != null">nickname = #{nickname},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="mobile != null">mobile = #{mobile},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="score != null">score = #{score},</if>
+            <if test="pushEmail != null">push_email = #{pushEmail},</if>
+            <if test="pushSwitch != null">push_switch = #{pushSwitch},</if>
+            <if test="token != null">token = #{token}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>

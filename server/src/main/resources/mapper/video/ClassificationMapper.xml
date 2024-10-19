@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kc.lesson.video.mapper.ClassificationMapper">
+
+    <select id="selectAll" resultType="com.kc.lesson.video.entity.Classification">
+        SELECT * FROM t_classification where 1=1
+        <if test="cName != null and cName != ''">
+            AND title LIKE CONCAT('%', #{cName}, '%')
+        </if>
+    </select>
+
+    <insert id="insert">
+        <selectKey keyProperty="id" resultType="long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO t_classification(title, create_time)
+        VALUES(#{title}, #{createTime})
+    </insert>
+
+    <delete id="deleteById">
+        DELETE FROM t_classification WHERE id = #{id}
+    </delete>
+
+    <update id="updateById">
+        UPDATE t_classification
+        SET title = #{title}, create_time = #{createTime}
+        WHERE id = #{id}
+    </update>
+
+</mapper>

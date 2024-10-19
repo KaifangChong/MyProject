@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kc.lesson.video.mapper.TagMapper">
+
+    <!-- 查询所有标签 -->
+    <select id="selectAll" resultType="com.kc.lesson.video.entity.Tag">
+        SELECT * FROM t_tag where 1=1
+        <if test="tagName != null and tagName != ''">
+            AND title LIKE CONCAT('%', #{tagName}, '%')
+        </if>
+    </select>
+
+    <!-- 插入标签 -->
+    <insert id="insert" parameterType="com.kc.lesson.video.entity.Tag">
+        <selectKey keyProperty="id" resultType="long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO t_tag (title, create_time)
+        VALUES (#{title}, #{createTime})
+    </insert>
+
+    <!-- 根据ID删除标签 -->
+    <delete id="deleteById" parameterType="String">
+        DELETE FROM t_tag WHERE id = #{id}
+    </delete>
+
+    <!-- 更新标签 -->
+    <update id="updateById" parameterType="com.kc.lesson.video.entity.Tag">
+        UPDATE t_tag
+        SET title = #{title}, create_time = #{createTime}
+        WHERE id = #{id}
+    </update>
+
+</mapper>

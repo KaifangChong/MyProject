@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kc.lesson.video.mapper.CommentMapper">
+
+    <select id="getList" resultType="com.kc.lesson.video.entity.Comment">
+        select A.*, B.username, C.title
+        from t_comment as A
+        join t_user as B on (A.user_id=B.id)
+        join t_video as C on (A.video_id=C.id)
+        <if test="userName != null and userName != ''">
+            AND B.username LIKE CONCAT('%', #{userName}, '%')
+        </if>
+        <if test="videoName != null and videoName != ''">
+            AND C.title LIKE CONCAT('%', #{videoName}, '%')
+        </if>
+        order by A.comment_time desc
+    </select>
+
+    <select id="selectVideoCommentList" parameterType="map" resultType="com.kc.lesson.video.entity.Comment">
+        select A.*, B.username, B.avatar, C.title
+        from t_comment as A
+                 join t_user as B on (A.user_id=B.id)
+                 join t_video as C on (A.video_id=C.id)
+        <if test="videoId != null">
+            where A.video_id=#{videoId}
+        </if>
+        <if test="order == 'recent'">
+            order by A.comment_time desc;
+        </if>
+        <if test="order == 'hot'">
+            order by A.like_count desc;
+        </if>
+    </select>
+
+    <select id="selectUserCommentList" parameterType="map" resultType="com.kc.lesson.video.entity.Comment">
+        select A.*, B.username, C.title, C.cover
+        from t_comment as A
+        join t_user as B on (A.user_id=B.id)
+        join t_video as C on (A.video_id=C.id)
+        <if test="userId != null">
+            where A.user_id=#{userId}
+        </if>
+            order by A.comment_time desc;
+    </select>
+
+    <!-- 插入评论 -->
+    <insert id="insert" parameterType="com.kc.lesson.video.entity.Comment">
+        <selectKey keyProperty="id" resultType="long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO t_comment (content, comment_time, like_count, user_id, video_id)
+        VALUES (#{content}, #{commentTime}, #{likeCount}, #{userId}, #{videoId})
+    </insert>
+
+    <!-- 根据ID删除评论 -->
+    <delete id="deleteById" parameterType="String">
+        DELETE FROM t_comment WHERE id = #{id}
+    </delete>
+
+    <!-- 更新评论 -->
+    <update id="updateById" parameterType="com.kc.lesson.video.entity.Comment">
+        UPDATE t_comment
+        SET content = #{content}, comment_time = #{commentTime}, like_count = #{likeCount}, user_id = #{userId}, video_id = #{videoId}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据ID查询评论详情 -->
+    <select id="selectById" parameterType="String" resultType="com.kc.lesson.video.entity.Comment">
+        SELECT * FROM t_comment WHERE id = #{id}
+    </select>
+
+</mapper>
