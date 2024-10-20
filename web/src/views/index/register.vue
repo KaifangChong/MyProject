@@ -81,7 +81,7 @@ const handleRegister = async () => {
     message.success('注册成功！')
     router.push({ name: 'login' })
   } catch (err) {
-    message.error('注册失败')
+    message.error(err.msg)
   }
 }
 </script>

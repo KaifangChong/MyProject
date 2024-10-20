@@ -79,7 +79,8 @@ public class UserController {
     @PostMapping("/userRegister")
     @Transactional
     public KCResponse userRegister(User user) throws IOException {
-        if (validateUserForRegistration(user)) {
+        String result = validateUserForRegistration(user);
+        if (StringUtils.isEmpty(result)) {
             user.setPassword(hashPassword(user.getPassword()));
             user.setToken(hashUsername(user.getUsername()));
             user.avatar = saveAvatar(user);
@@ -90,7 +91,7 @@ public class UserController {
             userService.createUser(user);
             return new KCResponse(ResponseCode.SUCCESS, "注册成功");
         }
-        return new KCResponse(ResponseCode.FAIL, "注册失败");
+        return new KCResponse(ResponseCode.FAIL, result);
     }
 
     // 添加用户
@@ -193,17 +194,17 @@ public class UserController {
     }
 
     // 校验用户注册信息
-    private boolean validateUserForRegistration(User user) {
+    private String validateUserForRegistration(User user) {
         if (StringUtils.isEmpty(user.getUsername()) || StringUtils.isEmpty(user.getPassword()) || StringUtils.isEmpty(user.getRePassword())) {
-            return false;
+            return "不能为空";
         }
         if (userService.getUserByUserName(user.getUsername()) != null) {
-            return false;
+            return "用户已存在";
         }
         if (!user.getPassword().equals(user.getRePassword())) {
-            return false;
+            return "密码不匹配";
         }
-        return true;
+        return "";
     }
 
     // 哈希密码
