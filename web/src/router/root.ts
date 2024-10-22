@@ -39,7 +39,7 @@ const constantRouterMap = [
       {
         path: 'usercenter',
         name: 'usercenter',
-        redirect: '/index/usercenter/addressView',
+        redirect: '/index/usercenter/wishVideoView',
         component: () => import('/@/views/index/usercenter.vue'),
         children: [
           {
