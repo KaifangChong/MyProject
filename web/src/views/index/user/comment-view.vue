@@ -70,16 +70,6 @@ const getCommentList = async () => {
 
 .content-list {
   flex: 1;
-
-  /*.list-title {
-    color: #152844;
-    font-weight: 600;
-    font-size: 18px;
-    //line-height: 24px;
-    height: 48px;
-    margin-bottom: 4px;
-    border-bottom: 1px solid #cedce4;
-  }*/
 }
 
 .comment-view {

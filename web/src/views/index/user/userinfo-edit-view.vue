@@ -170,16 +170,6 @@ input, textarea {
   -ms-flex: 1;
   flex: 1;
 
-  /*.list-title {
-    color: #152844;
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 48px;
-    height: 48px;
-    margin-bottom: 4px;
-    border-bottom: 1px solid #cedce4;
-  }*/
-
   .edit-view {
     .item {
       -webkit-box-align: center;

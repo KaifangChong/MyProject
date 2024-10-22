@@ -122,11 +122,8 @@ const userStore = useUserStore()
 
 const videoId = ref('')
 const detailData = ref({})
-const tabUnderLeft = ref(6)
-const selectTabIndex = ref(0)
 
 const commentData = ref([])
-const recommendData = ref([])
 const sortIndex = ref(0)
 const order = ref('recent') // 默认排序最新
 
@@ -135,7 +132,6 @@ const commentRef = ref(null)
 onMounted(() => {
   videoId.value = route.query.id.trim()
   getVideoDetail()
-  getRecommendVideo()
   getCommentList()
 })
 
@@ -177,20 +173,6 @@ const collect = async () => {
     }
   } else {
     message.warn('请先登录')
-  }
-}
-
-const getRecommendVideo = async () => {
-  try {
-    const res = await listVideoList({ sort: 'recommend' })
-    res.data.forEach(item => {
-      if (item.cover) {
-        item.cover = `${BASE_URL}/api/staticfiles/image/${item.cover}`
-      }
-    })
-    recommendData.value = res.data.slice(0, 6)
-  } catch (err) {
-    console.log(err)
   }
 }
 

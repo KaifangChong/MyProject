@@ -3,9 +3,8 @@
     <div class="list-title">帐号安全</div>
     <div class="list-content">
       <div class="safe-view">
-        <div class="edit-pwd-box" style="display;">
+        <div class="edit-pwd-box">
           <div class="pwd-edit">
-            <!---->
             <div class="item flex-view">
               <div class="label">当前密码</div>
               <div class="right-box">
@@ -91,16 +90,6 @@ input, textarea {
 
 .content-list {
   flex: 1;
-
-  /*.list-title {
-    color: #152844;
-    font-weight: 600;
-    font-size: 18px;
-    //line-height: 24px;
-    height: 48px;
-    margin-bottom: 4px;
-    border-bottom: 1px solid #cedce4;
-  }*/
 }
 
 .safe-view {

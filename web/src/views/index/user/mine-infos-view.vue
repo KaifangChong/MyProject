@@ -39,49 +39,14 @@ import MyEditImage from '/@/assets/images/setting-push-icon.svg'
 import SafeIconImage from '/@/assets/images/setting-safe-icon.svg'
 import MessageIconImage from '/@/assets/images/setting-msg-icon.svg'
 
-import {userCollectListApi} from '/@/api/videoCollect'
-import {userWishListApi} from '/@/api/videoWish'
 import {useUserStore} from '/@/store';
 
 const router = useRouter()
 const userStore = useUserStore()
 
-const collectCount = ref(0)
-const wishCount = ref(0)
-
-onMounted(() => {
-  getCollectVideoList()
-  getWishVideoList()
-})
-
 const clickMenu = (name) => {
   router.push({ name })
 }
-
-const getCollectVideoList = async () => {
-  const userId = userStore.user_id
-  if (!userId) return
-
-  try {
-    const res = await userCollectListApi({ userId })
-    collectCount.value = res.data.length
-  } catch (err) {
-    console.log('获取收藏列表失败')
-  }
-}
-
-const getWishVideoList = async () => {
-  const userId = userStore.user_id
-  if (!userId) return
-
-  try {
-    const res = await userWishListApi({ userId })
-    wishCount.value = res.data.length
-  } catch (err) {
-    console.log('获取愿望清单失败')
-  }
-}
-
 </script>
 
 <style scoped lang="less">

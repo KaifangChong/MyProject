@@ -16,7 +16,6 @@
             <p class="err-view">
             </p>
           </div>
-          <!---->
         </div>
         <div class="common-input">
           <img :src="PwdIcon" class="left-icon">

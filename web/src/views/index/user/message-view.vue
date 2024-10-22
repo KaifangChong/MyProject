@@ -6,18 +6,17 @@
       <div class="notification-view">
         <div class="list">
           <div class="notification-item flex-view" v-for="item in msgData">
-            <!---->
             <img
               :src="MessageIconImage"
               class="avatar">
             <div class="content-box">
               <div class="header">
                 <span class="title-txt">{{item.title}}</span>
-                <span class="time">{{ item.create_time }}</span>
+                <span class="time">{{ getFormatTime(item.createTime, true) }}</span>
               </div>
               <div class="head-text">
-            <span class="name" style="display: none;">
-            </span>
+              <span class="name" style="display: none;">
+              </span>
               </div>
               <div class="content">
                 <p>{{ item.content }}</p>
@@ -34,6 +33,7 @@
 <script setup>
 import {listApi} from '/@/api/notice'
 import MessageIconImage from '/@/assets/images/setting-msg-icon.svg'
+import {getFormatTime} from '/@/utils'
 
 const loading = ref(false)
 const msgData = ref([])
@@ -75,16 +75,6 @@ button {
 
 .content-list {
   flex: 1;
-
-  /*.list-title {
-    color: #152844;
-    font-weight: 600;
-    font-size: 18px;
-    //line-height: 24px;
-    height: 48px;
-    margin-bottom: 4px;
-    border-bottom: 1px solid #cedce4;
-  }*/
 }
 
 .notification-item {
