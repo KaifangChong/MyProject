@@ -49,9 +49,6 @@ public class VideoServiceImpl implements VideoService {
         if (video.getPv() == null) {
             video.setPv("0");
         }
-        if (video.getScore() == null) {
-            video.setScore("0");
-        }
         if (video.getWishCount() == null) {
             video.setWishCount("0");
         }
