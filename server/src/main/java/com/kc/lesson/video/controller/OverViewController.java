@@ -37,29 +37,16 @@ public class OverViewController {
     public KCResponse count() {
         try {
             Map<String, Object> result = new HashMap<>();
-
-            // 视频总数和七日新增
-            result.put("totalVideos", videoMapper.countAllVideos());
-            result.put("recentVideos", getRecentVideoCount(7));
-
             // 热门视频和热门分类
             result.put("popularVideos", overviewMapper.getPopularVideo());
             result.put("popularClassifications", overviewMapper.getPopularClassification());
-
             // 网站流量
             result.put("visitList", getVisitListForLastDays(7));
-
             return new KCResponse(ResponseCode.SUCCESS, "查询成功", result);
         } catch (Exception e) {
             logger.error("获取统计信息失败", e);
             return new KCResponse(ResponseCode.FAIL, "查询失败");
         }
-    }
-
-    private long getRecentVideoCount(int days) {
-        long currentTimeMillis = System.currentTimeMillis();
-        long daysAgoMillis = currentTimeMillis - days * 24L * 60 * 60 * 1000; // 计算指定天数之前的时间戳
-        return videoMapper.countRecentVideos(daysAgoMillis);
     }
 
     private List<Map<String, String>> getVisitListForLastDays(int days) {

@@ -32,21 +32,6 @@ public class VideoServiceImpl implements VideoService {
 
         List<Video> videos = mapper.getVideoList(keyword, sort, c, status, tag, isAdmin);
 
-        // tag筛选
-        if (StringUtils.isNotBlank(tag)) {
-            List<Video> tVideos = new ArrayList<>();
-            List<VideoTag> videoTagList = videoTagMapper.selectByTagId(tag);
-            for (Video video : videos) {
-                for (VideoTag videoTag : videoTagList) {
-                    if (video.getId().equals(videoTag.getVideoId())) {
-                        tVideos.add(video);
-                    }
-                }
-            }
-            videos.clear();
-            videos.addAll(tVideos);
-        }
-
         // 附加tag
         for (Video video : videos) {
             List<VideoTag> videoTags = videoTagMapper.selectByVideoId(video.getId());

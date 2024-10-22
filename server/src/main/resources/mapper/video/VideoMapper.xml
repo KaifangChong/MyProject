@@ -16,6 +16,9 @@
         <if test="status != null and status != ''">
             AND status = #{status}
         </if>
+        <if test="tag != null and tag != ''">
+            AND id IN(select distinct tvt.video_id from t_video_tag tvt where tvt.tag_id = #{tag})
+        </if>
         <choose>
             <when test="sort == 'recent'">
                 ORDER BY create_time DESC
