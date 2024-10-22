@@ -94,7 +94,6 @@ const contentData = reactive({
   loading: false,
   tabData: ['最新', '最热', '推荐'],
   selectTabIndex: 0,
-  tabUnderLeft: 12,
   videoData: [],
   pageData: [],
   page: 1,
@@ -105,11 +104,11 @@ const contentData = reactive({
 })
 
 onMounted(() => {
-  initSider()
+  initClassAndTag()
   getVideoList({ isAdmin: 1,page: 1,pageSize: 12 })
 })
 
-const initSider = async () => {
+const initClassAndTag = async () => {
   contentData.cData.push({ key: '-1', title: '全部' })
   try {
     const classificationRes = await listClassificationList()
@@ -120,7 +119,7 @@ const initSider = async () => {
     const tagRes = await listTagList()
     contentData.tagData = tagRes.data.list
   } catch (err) {
-    console.log('初始化侧边栏数据失败', err)
+    console.log('初始化数据失败', err)
   }
 }
 
@@ -150,7 +149,6 @@ const clickTag = (index) => {
 
 const selectTab = (index) => {
   contentData.selectTabIndex = index
-  contentData.tabUnderLeft = 12 + 50 * index
   contentData.page = 1; // 重置页数为1
   contentData.pageSize = 12;
   contentData.pageData = []; // 清空已有的视频数据

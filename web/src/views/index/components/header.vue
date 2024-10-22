@@ -51,12 +51,11 @@
               <div class="notification-view">
                 <div class="list">
                   <div class="notification-item flex-view" v-for="item in msgData">
-                    <!---->
                     <div class="content-box">
                       <div class="header">
                         <span class="title-txt">{{item.title}}</span>
                         <br/>
-                        <span class="time">{{ item.create_time }}</span>
+                        <span class="time">{{ getFormatTime(item.createTime, true) }}</span>
                       </div>
                       <div class="head-text">
                       </div>
@@ -82,6 +81,7 @@ import logoImage from '/@/assets/images/k-logo.png';
 import SearchIcon from '/@/assets/images/search-icon.svg';
 import AvatarIcon from '/@/assets/images/avatar.jpg';
 import MessageIcon from '/@/assets/images/message-icon.svg';
+import {getFormatTime} from "/@/utils";
 
 const router = useRouter();
 const route = useRoute();

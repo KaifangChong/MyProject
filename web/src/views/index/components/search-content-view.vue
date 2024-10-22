@@ -12,7 +12,7 @@
       <div class="video-list">
         <a-spin :spinning="tData.loading" style="min-height: 200px;">
           <div class="pc-video-list">
-            <div v-for="item in tData.pageData" :key="item.id" @click="handleDetail(item)"
+            <div v-for="item in tData.videoData" :key="item.id" @click="handleDetail(item)"
                  class="video-item item-column-3">
               <div class="img-view">
                 <img :src="item.cover">
@@ -27,13 +27,9 @@
                 <span style="color: #444; font-size: 12px;">{{ item.pv }}次观看</span>
               </div>
             </div>
-            <div v-if="tData.pageData.length <= 0 && !tData.loading" class="no-data">暂无数据</div>
+            <div v-if="tData.videoData.length <= 0 && !tData.loading" class="no-data">暂无数据</div>
           </div>
         </a-spin>
-        <div class="page-view">
-          <a-pagination v-model:value="tData.page" size="small" @change="changePage" :hideOnSinglePage="true"
-                        :defaultPageSize="tData.pageSize" :total="tData.total"/>
-        </div>
       </div>
     </div>
   </div>
@@ -53,7 +49,6 @@ const tData = reactive({
   loading: false,
   keyword: '',
   videoData: [],
-  pageData: [],
   page: 1,
   total: 0,
   pageSize: 20,
@@ -77,14 +72,6 @@ const search = async () => {
   await getVideoList({ keyword: tData.keyword,page:1,pageSize:1000,isAdmin: 1 })
 }
 
-// 分页事件
-const changePage = (page) => {
-  tData.page = page
-  const start = (tData.page - 1) * tData.pageSize
-  tData.pageData = tData.videoData.slice(start, start + tData.pageSize)
-  console.log(`第 ${tData.page} 页`)
-}
-
 const handleDetail = (item) => {
   // 跳转新页面
   const { href } = router.resolve({ name: 'detail', query: { id: item.id } })
@@ -102,7 +89,6 @@ const getVideoList = async (data) => {
     })
     tData.videoData = res.data.list
     tData.total = tData.videoData.length
-    changePage(1)
   } catch (err) {
     console.log(err)
   } finally {
