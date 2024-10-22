@@ -74,7 +74,7 @@ watch(
 
 const search = async () => {
   tData.keyword = route.query.keyword?.trim() || ''
-  await getVideoList({ keyword: tData.keyword,page:1,pageSize:1000 })
+  await getVideoList({ keyword: tData.keyword,page:1,pageSize:1000,isAdmin: 1 })
 }
 
 // 分页事件

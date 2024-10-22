@@ -66,7 +66,7 @@
 
       <!-- 加载更多按钮 -->
       <div v-if="contentData.hasMore && !contentData.loading" class="load-more">
-        <a-button type="primary" @click="getVideoList({ page: contentData.page, pageSize: contentData.pageSize, isAdmin: 1 })">加载更多</a-button>
+        <a-button type="primary" @click="getVideoList({ page: contentData.page, pageSize: contentData.pageSize, isAdmin: 1, c: getSelectedKey() ,tag: contentData.selectTagId, sort: contentData.sort })">加载更多</a-button>
       </div>
       <div v-else-if="!contentData.hasMore" class="no-more-data">没有更多数据了</div>
     </div>
@@ -101,6 +101,7 @@ const contentData = reactive({
   total: 0,
   pageSize: 12,
   hasMore: true,   // 是否还有更多数据
+  sort: '' //排序方式
 })
 
 onMounted(() => {
@@ -155,6 +156,7 @@ const selectTab = (index) => {
   contentData.pageData = []; // 清空已有的视频数据
   contentData.hasMore = true;
   const sort = index === 0 ? 'recent' : index === 1 ? 'hot' : 'recommend'
+  contentData.sort = sort;
   const data = { sort, isAdmin: 1,page:1,pageSize:12 }
 
   if (contentData.selectTagId !== -1) {
