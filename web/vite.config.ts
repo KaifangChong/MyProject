@@ -49,5 +49,9 @@ export default ({ command }: ConfigEnv): UserConfig => {
       https: false, // 禁用https
       // proxy,
     },
+
+    build: {
+      sourcemap: false,  // 关闭 sourcemap 生成
+    }
   };
 };
