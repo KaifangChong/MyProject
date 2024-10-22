@@ -114,6 +114,7 @@ const modal = reactive({
   form: {
     id: undefined,
     title: undefined,
+    content: undefined,
   },
   rules: {
     title: [{ required: true, message: '请输入', trigger: 'change' }],
@@ -195,7 +196,6 @@ const confirmDelete = (record: any) => {
 const handleBatchDelete = () => {
   console.log(data.selectedRowKeys);
   if (data.selectedRowKeys.length <= 0) {
-    console.log('hello');
     message.warn('请勾选删除项');
     return;
   }

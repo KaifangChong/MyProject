@@ -269,6 +269,7 @@
       coverUrl: undefined,
       imageFile: undefined,
       rawFile: undefined,
+      description: undefined,
     },
     rules: {
       title: [{ required: true, message: '请输入名称', trigger: 'change' }],

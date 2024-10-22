@@ -83,14 +83,6 @@ const modal = reactive({
   visile: false,
   editFlag: false,
   title: '',
-  form: {
-    id: undefined,
-    image: undefined,
-    link: undefined,
-  },
-  rules: {
-    link: [{required: true, message: '请输入', trigger: 'change'}],
-  },
 });
 
 onMounted(() => {
