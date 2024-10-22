@@ -137,7 +137,6 @@ public class UserController {
     @Transactional
     public KCResponse update(User user) throws IOException {
         user.setPassword(null); // 不允许直接更新密码
-        user.avatar = saveAvatar(user);
         userService.updateUser(user);
         return new KCResponse(ResponseCode.SUCCESS, "更新成功");
     }
