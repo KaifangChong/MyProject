@@ -52,6 +52,9 @@ public class VideoServiceImpl implements VideoService {
         if (video.getWishCount() == null) {
             video.setWishCount("0");
         }
+        if (video.getCollectCount() == null) {
+            video.setCollectCount("0");
+        }
         mapper.insert(video);
         setVideoTags(video);
     }
