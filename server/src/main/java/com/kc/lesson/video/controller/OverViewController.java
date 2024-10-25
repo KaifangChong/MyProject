@@ -60,7 +60,7 @@ public class OverViewController {
         visitData.put("day", day);
 
         List<VisitData> webVisitData = overviewMapper.getWebVisitData(day);
-        int pv = webVisitData.stream().mapToInt(visit -> visit.count).sum(); // 计算播放数量
+        int pv = webVisitData.stream().mapToInt(visit -> visit.count).sum(); // 计算访问数量
         int uv = webVisitData.size(); // 计算IP的数量
 
         visitData.put("pv", String.valueOf(pv));
